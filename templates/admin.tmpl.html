@@ -1,0 +1,93 @@
+<div class="horizontal-box" style="align-items: center">
+    <a ng-href="#!/search" class="box rotate separated"></a><a ng-href="#!/search">Панель поиска</a>
+</div>
+<hr/>
+<ul class="nav nav-tabs ">
+    <li class="active"><a data-toggle="tab" href="admin#manual">Ручное индексирование</a></li>
+    <li><a data-toggle="tab" href="admin#automatic">Автоматическое индексирование</a></li>
+</ul>
+<div class="tab-content col-md-12">
+    <!--first Tab -->
+    <div id="manual" class="tab-pane fade in active  horizontal-box ">
+        <section id="questions" class="pill vertical-box col-md-6" >
+            Это список всех проиндексированных видео. Вы можете редактировать/удалять существующие видео или индексировать новые видео вручную.
+            <table>
+                <tr>
+                    <th>#</th>
+                    <th>Название</th>
+                    <th>Сайт</th>
+                    <th>Редактировать</th>
+                    <th>Удалить</th>
+                </tr>
+                <tr ng-repeat="video in adminCtrl.videosList" ng-class="{active:adminCtrl.selectRow($index, video)}">
+                    <td>{{$index + 1}}</td>
+                    <td>{{video.title}}</td>
+                    <td>{{video.site}}</td>
+                    <td><a href="" ng-click="adminCtrl.editVideo(video, $index)"><i class="fa fa-pencil " aria-hidden="true"></i></a></td>
+                    <td><a href="" ng-click="adminCtrl.deleteVideo(video)"><i class="fa fa-minus centered-element" aria-hidden="true"></i></a></td>
+                </tr>
+            </table>
+            <button type="button" ng-click="adminCtrl.createVideo()" class="btn btn-primary">
+                <i class="fa fa-plus" aria-hidden="true"></i>Добавить новое видео</button>
+        </section>
+        <div id="question-details" class="pill col-md-6" ng-show="adminCtrl.showDetails">
+            <div class="vertical-box">
+                <div class="horizontal-box righted-element">
+                    <div class="no-margin"><a href="" ng-click="adminCtrl.closeDetails()"><i class="fa fa-times" aria-hidden="true"></i></a></div>
+                </div>
+                <form class="horizontal-box">
+                    <div class="vertical-box">
+                        <div ng-show="adminCtrl.isEditing">
+                            Название видео
+                            <input type="text"  ng-model="adminCtrl.tempVideoDesc.title" class="input-field">
+                            Описание видео
+                            <input type="text"  ng-model="adminCtrl.tempVideoDesc.description" class="input-field">
+                            Ссылка
+                            <input type="text"  ng-model="adminCtrl.tempVideoDesc.url" class="input-field">
+                            Сайт
+                            <input type="text"  ng-model="adminCtrl.tempVideoDesc.site" class="input-field">
+                            Ссылка на картинку
+                            <input type="text"  ng-model="adminCtrl.tempVideoDesc.thumbnail" class="input-field">
+                            <!--<img ng-src="{{imageUrl}}" class="small-img">-->
+                            <div ng-show="adminCtrl.showTextarea">
+                                Распознанный текст
+                                <textarea ng-model="adminCtrl.tempVideoDesc.content" rows="14"></textarea>
+                            </div>
+                        </div>
+                        <div ng-show="adminCtrl.isAdding">
+                            Ссылка
+                            <input type="text"  ng-model="adminCtrl.newUrl" class="input-field">
+                        </div>
+
+                        <div class="horizontal-box centered-element">
+                            <button type="submit" data-ng-show="adminCtrl.allowToSave"  ng-click="adminCtrl.saveNewVideo()" class="btn btn-success">
+                                <i class="fa fa-paper-plane" aria-hidden="true"></i> Сохранить
+                            </button>
+                            <button type="button" data-ng-show="adminCtrl.allowToUpdate" ng-click="adminCtrl.updateVideo()" class="btn btn-success">
+                                <i class="fa fa-share" aria-hidden="true"></i> Обновить
+                            </button>
+                            <button type="button" data-ng-click="adminCtrl.closeDetails()" class="btn btn-danger">
+                                <i class="fa fa-times" aria-hidden="true"></i> Отменить
+                            </button>
+                        </div>
+                        <div class="horizontal-box centered-element" ng-show="adminCtrl.progressLoop">
+                            <img src="http://library.by/images/indicator.gif">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!--second Tab -->
+    <div id="automatic" class="tab-pane fade">
+        <hr/>
+        <div class="horizontal-box separated">
+                Введите текст ссылки
+                <input type="text"  class="input-field">
+                <button class="btn btn-primary no-margin">Начать индексацию</button>
+            </div>
+        </div>
+
+</div>
+<hr/>

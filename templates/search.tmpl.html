@@ -1,0 +1,50 @@
+<div class="horizontal-box" style="align-items: center">
+    <a ng-href="#!/admin" class="box rotate separated"></a><a ng-href="#!/admin">Админ панель</a>
+</div>
+<div class="centered-element">
+    <h1>Поиск видео по содержимому</h1>
+</div>
+<hr/>
+<form class="form-horizontal" ng-submit="searchCtrl.getResults()" name="searchForm">
+    <div class="form-group horizontal-box centered-element">
+        <div class="input-group ">
+            <div class="input-group-addon"><i class="fa fa-pencil" aria-hidden="true"></i></div>
+            <input type="text" class="form-control"
+                   ng-model="searchCtrl.textRequest" ng-pattern="searchCtrl.validationExample.word"
+                   required ng-trim="false"
+                   placeholder="Введите текст для поиска">
+        </div>
+        <button type="submit" class="btn btn-primary">Искать</button>
+    </div>
+</form>
+<hr/>
+<div class="centered-element" ng-show="searchCtrl.validResultsReceived">
+    <h2>Результаты поиска</h2>
+    <span class="description">Всего найдено: {{searchCtrl.searchResults.length}} видео</span>
+</div>
+<hr/>
+<!--repeat this-->
+<div class="centered-element">
+    <div ng-repeat="searchResult in searchCtrl.searchResults" class="search-results animated">
+        <div class="horizontal-box">
+            <div class="horizontal-box">
+                <a href="{{searchResult.url}}" target="_blank">
+                    <img src="{{searchResult.thumbnail}}">
+                </a>
+            </div>
+            <div class="vertical-box separated">
+                <h4><a href="{{searchResult.url}}" target="_blank">{{searchResult.title}}</a></h4>
+                <p>
+                    <span class="description">{{searchResult.description  | limitTo: 300}}
+
+                     </span>
+                </p>
+            </div>
+        </div>
+        <hr/>
+    </div>
+</div>
+
+<div class="centered-element" ng-show="searchCtrl.noValidResultsReceived">
+    Нет результатов. Повторите поиск с другими словами.
+</div>
