@@ -1,7 +1,5 @@
-app.controller('AdminPanelController', function ($http, $filter) {
+app.controller('AdminPanelController', ['VideosModel', function (VideosModel, $http, $filter, $log)  {
     let adminCtrl = this;
-    getResults();
-
     let emptyVideoDesc = {
         name: '',
         description: '',
@@ -10,6 +8,7 @@ app.controller('AdminPanelController', function ($http, $filter) {
         at: 0
     };
     let editedVideoId = null;
+
     adminCtrl.videosList = [];
     adminCtrl.showDetails = false;
     adminCtrl.tempVideoDesc = {};
@@ -19,12 +18,16 @@ app.controller('AdminPanelController', function ($http, $filter) {
     adminCtrl.isAdding = false;
     adminCtrl.isEditing = false;
     adminCtrl.newUrl = '';
-    adminCtrl.progressLoop = false;
+    adminCtrl.showProgressLoop = false;
 
+    getVideos();
 
-    adminCtrl.selectRow = function (index, receivedVideo) {
-
-    }; //rewrite this function
+    adminCtrl.createVideo = function () {
+        adminCtrl.showDetails = true;
+        adminCtrl.allowToSave = true;
+        adminCtrl.isAdding = true;
+        adminCtrl.tempVideoDesc = angular.copy(emptyVideoDesc);
+    };
     adminCtrl.editVideo = function (receivedVideo, id) {
         _.forEach(adminCtrl.videosList, function (video) {
             if (receivedVideo.id === video.id) {
@@ -37,24 +40,29 @@ app.controller('AdminPanelController', function ($http, $filter) {
         adminCtrl.showTextarea = true;
         adminCtrl.isEditing = true;
     };
+    adminCtrl.updateVideo = function () {
+        VideosModel.updateVideoInfo(adminCtrl.tempVideoDesc)
+            .then(adminCtrl.videosList[editedVideoId] = angular.copy(adminCtrl.tempVideoDesc));
+        adminCtrl.closeDetails();
+    };
     adminCtrl.deleteVideo = function (receivedVideo) {
-        $http({
-            method: 'DELETE',
-            url: 'http://192.168.0.101:8080/v1/videos/' + receivedVideo.id //change JSON
-        }).then(function () {
-            _.forEach(adminCtrl.videosList, function (video) {
-                if (adminCtrl.tempVideoDesc.id === video.id) {
-                    adminCtrl.videosList.splice(video.id, 1);
-                }
-            });
+        VideosModel.deleteVideo(receivedVideo)
+            .then(function () {
+                _.forEach(adminCtrl.videosList, function (video) {
+                    if (adminCtrl.tempVideoDesc.id === video.id) {
+                        adminCtrl.videosList.splice(video.id, 1);
+                    }
+                });
         });
     };
-    adminCtrl.createVideo = function () {
-        adminCtrl.showDetails = true;
-        adminCtrl.allowToSave = true;
-        adminCtrl.isAdding = true;
-
-        adminCtrl.tempVideoDesc = angular.copy(emptyVideoDesc);
+    adminCtrl.saveVideo = function () {
+        adminCtrl.showProgressLoop = true;
+        let path = $filter('bcEncode')(adminCtrl.newUrl); //encoding string
+        VideosModel.addVideo(path)
+            .then(function (data) {
+                adminCtrl.videosList.push(data.data);
+                adminCtrl.closeDetails();
+            });
     };
     adminCtrl.closeDetails = function () {
         adminCtrl.showDetails = false;
@@ -64,44 +72,19 @@ app.controller('AdminPanelController', function ($http, $filter) {
         adminCtrl.isAdding = false;
         adminCtrl.isEditing = false;
         adminCtrl.tempVideoDesc = {};
-        adminCtrl.progressLoop = false;
+        adminCtrl.showProgressLoop = false;
         adminCtrl.newUrl = '';
-        /*adminCtrl.newUrl = '';*/
     };
-    adminCtrl.saveNewVideo = function () {
-        adminCtrl.progressLoop = true;
-        let encodedString = $filter('bcEncode')(adminCtrl.newUrl);
-        console.log(encodedString);
-        $http({
-            method: 'POST',
-            url: 'http://192.168.0.103:8080/v1/videos?url=' + encodedString //add URL param
 
-        }).then(function (data) {
-            adminCtrl.videosList.push(data.data);
-            adminCtrl.closeDetails();
-        });
-    };
-    adminCtrl.updateVideo = function () {
-        $http({
-            method: 'PUT',
-            url: 'http://192.168.0.103:8080/v1/videos/' + adminCtrl.tempVideoDesc.id, //change JSON
-            data: adminCtrl.tempVideoDesc
-        }).then(adminCtrl.videosList[editedVideoId] = angular.copy(adminCtrl.tempVideoDesc));
-        adminCtrl.closeDetails();
-    };
-    function getResults() {
-        return $http({
-            method: 'GET',
-            url: 'http://192.168.0.103:8080/v1/videos'
-        }).then(successCallback, errorCallback);
+    function getVideos() {
+        VideosModel.getVideos()
+            .then(successCallback, errorCallback);
     }
     function successCallback(data) {
-        console.log(data);
-        console.log(data.data);
         adminCtrl.videosList = data.data;
     }
     function errorCallback(error) {
-        console.log(error);
+        $log(error);
         adminCtrl.videosList = [];
     }
-});
+}]);

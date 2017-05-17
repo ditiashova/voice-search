@@ -1,4 +1,4 @@
-app.controller('SearchController', function (SearchModel, $http) {
+app.controller('SearchController', ['VideosModel', '$log', function (VideosModel, $log) {
     let searchCtrl = this;
     searchCtrl.textRequest = '';
     searchCtrl.validResultsReceived = false;
@@ -7,30 +7,29 @@ app.controller('SearchController', function (SearchModel, $http) {
 
     searchCtrl.getResults = function () {
         clearSearchResults();
-        return $http({
-            method: 'GET',
-            url: 'http://192.168.0.103:8080/v1/search?query=' + searchCtrl.textRequest
-        }).then(successCallback, errorCallback);
+        VideosModel.getSearchResults(searchCtrl.textRequest)
+            .then(successCallback, errorCallback);
     };
+
+    function clearSearchResults() {
+        searchCtrl.searchResults.length = 0;
+        searchCtrl.validResultsReceived = false;
+        searchCtrl.noValidResultsReceived = false;
+    }
     function successCallback(data) {
         searchCtrl.searchResults = data.data;
         if (searchCtrl.searchResults.length === 0) {
-            searchCtrl.noValidResultsReceived = true;
             searchCtrl.validResultsReceived = false;
+            searchCtrl.noValidResultsReceived = true;
         } else {
-            searchCtrl.noValidResultsReceived = false;
             searchCtrl.validResultsReceived = true;
+            searchCtrl.noValidResultsReceived = false;
         }
     }
     function errorCallback(error) {
-        console.log(error);
+        $log(error);
         searchCtrl.validResultsReceived = false;
-        searchCtrl.results = [];
-        searchCtrl.noValidResultsReceived = true;
-    }
-    function clearSearchResults() {
-        searchCtrl.searchResults.length = 0;
         searchCtrl.noValidResultsReceived = false;
-        searchCtrl.validResultsReceived = false;
+        searchCtrl.results = [];
     }
-});
+}]);

@@ -1,14 +1,19 @@
-<div class="horizontal-box" style="align-items: center">
-    <a ng-href="#!/search" class="box rotate separated"></a><a ng-href="#!/search">Панель поиска</a>
+<div class="horizontal-box">
+    <a ng-href="#!/search" class="box rotate separated"></a>
+    <a ng-href="#!/search">Панель поиска</a>
 </div>
 <hr/>
-<ul class="nav nav-tabs ">
-    <li class="active"><a data-toggle="tab" href="admin#manual">Ручное индексирование</a></li>
-    <li><a data-toggle="tab" href="admin#automatic">Автоматическое индексирование</a></li>
+<ul class="nav nav-tabs">
+    <li class="active">
+        <a data-toggle="tab" href="admin#manual">Ручное индексирование</a>
+    </li>
+    <li>
+        <a data-toggle="tab" href="admin#automatic">Автоматическое индексирование</a>
+    </li>
 </ul>
 <div class="tab-content col-md-12">
     <!--first Tab -->
-    <div id="manual" class="tab-pane fade in active  horizontal-box ">
+    <div id="manual" class="tab-pane fade in active  horizontal-box">
         <section id="questions" class="pill vertical-box col-md-6" >
             Это список всех проиндексированных видео. Вы можете редактировать/удалять существующие видео или индексировать новые видео вручную.
             <table>
@@ -19,21 +24,31 @@
                     <th>Редактировать</th>
                     <th>Удалить</th>
                 </tr>
-                <tr ng-repeat="video in adminCtrl.videosList" ng-class="{active:adminCtrl.selectRow($index, video)}">
+                <tr ng-repeat="video in adminCtrl.videosList">
                     <td>{{$index + 1}}</td>
                     <td>{{video.title}}</td>
                     <td>{{video.site}}</td>
-                    <td><a href="" ng-click="adminCtrl.editVideo(video, $index)"><i class="fa fa-pencil " aria-hidden="true"></i></a></td>
-                    <td><a href="" ng-click="adminCtrl.deleteVideo(video)"><i class="fa fa-minus centered-element" aria-hidden="true"></i></a></td>
+                    <td><a href="" ng-click="adminCtrl.editVideo(video, $index)">
+                            <i class="fa fa-pencil " aria-hidden="true"></i>
+                        </a>
+                    </td>
+                    <td><a href="" ng-click="adminCtrl.deleteVideo(video)">
+                            <i class="fa fa-minus centered-element" aria-hidden="true"></i>
+                        </a>
+                    </td>
                 </tr>
             </table>
             <button type="button" ng-click="adminCtrl.createVideo()" class="btn btn-primary">
-                <i class="fa fa-plus" aria-hidden="true"></i>Добавить новое видео</button>
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                Добавить новое видео
+            </button>
         </section>
         <div id="question-details" class="pill col-md-6" ng-show="adminCtrl.showDetails">
             <div class="vertical-box">
                 <div class="horizontal-box righted-element">
-                    <div class="no-margin"><a href="" ng-click="adminCtrl.closeDetails()"><i class="fa fa-times" aria-hidden="true"></i></a></div>
+                    <div class="no-margin">
+                        <button ng-click="adminCtrl.closeDetails()"><i class="fa fa-times" aria-hidden="true" ></i></button>
+                    </div>
                 </div>
                 <form class="horizontal-box">
                     <div class="vertical-box">
@@ -48,7 +63,6 @@
                             <input type="text"  ng-model="adminCtrl.tempVideoDesc.site" class="input-field">
                             Ссылка на картинку
                             <input type="text"  ng-model="adminCtrl.tempVideoDesc.thumbnail" class="input-field">
-                            <!--<img ng-src="{{imageUrl}}" class="small-img">-->
                             <div ng-show="adminCtrl.showTextarea">
                                 Распознанный текст
                                 <textarea ng-model="adminCtrl.tempVideoDesc.content" rows="14"></textarea>
@@ -60,17 +74,22 @@
                         </div>
 
                         <div class="horizontal-box centered-element">
-                            <button type="submit" data-ng-show="adminCtrl.allowToSave"  ng-click="adminCtrl.saveNewVideo()" class="btn btn-success">
-                                <i class="fa fa-paper-plane" aria-hidden="true"></i> Сохранить
+                            <button type="submit" data-ng-show="adminCtrl.allowToSave" class="btn btn-success"
+                                    ng-click="adminCtrl.saveVideo()" >
+                                <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                                Сохранить
                             </button>
-                            <button type="button" data-ng-show="adminCtrl.allowToUpdate" ng-click="adminCtrl.updateVideo()" class="btn btn-success">
-                                <i class="fa fa-share" aria-hidden="true"></i> Обновить
+                            <button type="button" data-ng-show="adminCtrl.allowToUpdate" class="btn btn-success"
+                                    ng-click="adminCtrl.updateVideo()" >
+                                <i class="fa fa-share" aria-hidden="true"></i>
+                                Обновить
                             </button>
                             <button type="button" data-ng-click="adminCtrl.closeDetails()" class="btn btn-danger">
-                                <i class="fa fa-times" aria-hidden="true"></i> Отменить
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                                Отменить
                             </button>
                         </div>
-                        <div class="horizontal-box centered-element" ng-show="adminCtrl.progressLoop">
+                        <div class="horizontal-box centered-element" ng-show="adminCtrl.showProgressLoop">
                             <img src="http://library.by/images/indicator.gif">
                         </div>
                     </div>
@@ -88,6 +107,5 @@
                 <button class="btn btn-primary no-margin">Начать индексацию</button>
             </div>
         </div>
-
 </div>
 <hr/>
