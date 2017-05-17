@@ -1,0 +1,21 @@
+{
+  "name": "voice-search",
+  "version": "1.0.0",
+  "description": "An app to search for the youtube videos by the speech",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "less": "^2.7.2"
+  },
+  "dependencies": {
+    "angular-url-encode": "^1.0.0",
+    "bootstrap": "^3.3.7",
+    "headjs": "^1.0.3",
+    "jquery": "^3.2.1",
+    "js": "^0.1.0"
+  }
+}
