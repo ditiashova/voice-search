@@ -28,6 +28,7 @@ app.controller('AdminPanelController', ['VideosModel', function (VideosModel, $h
         adminCtrl.isAdding = true;
         adminCtrl.tempVideoDesc = angular.copy(emptyVideoDesc);
     };
+
     adminCtrl.editVideo = function (receivedVideo, id) {
         _.forEach(adminCtrl.videosList, function (video) {
             if (receivedVideo.id === video.id) {
@@ -40,11 +41,13 @@ app.controller('AdminPanelController', ['VideosModel', function (VideosModel, $h
         adminCtrl.showTextarea = true;
         adminCtrl.isEditing = true;
     };
+
     adminCtrl.updateVideo = function () {
         VideosModel.updateVideoInfo(adminCtrl.tempVideoDesc)
             .then(adminCtrl.videosList[editedVideoId] = angular.copy(adminCtrl.tempVideoDesc));
         adminCtrl.closeDetails();
     };
+
     adminCtrl.deleteVideo = function (receivedVideo) {
         VideosModel.deleteVideo(receivedVideo)
             .then(function () {
@@ -55,6 +58,7 @@ app.controller('AdminPanelController', ['VideosModel', function (VideosModel, $h
                 });
         });
     };
+
     adminCtrl.saveVideo = function () {
         adminCtrl.showProgressLoop = true;
         let path = $filter('bcEncode')(adminCtrl.newUrl); //encoding string
@@ -64,6 +68,7 @@ app.controller('AdminPanelController', ['VideosModel', function (VideosModel, $h
                 adminCtrl.closeDetails();
             });
     };
+
     adminCtrl.closeDetails = function () {
         adminCtrl.showDetails = false;
         adminCtrl.allowToUpdate = false;
@@ -80,9 +85,11 @@ app.controller('AdminPanelController', ['VideosModel', function (VideosModel, $h
         VideosModel.getVideos()
             .then(successCallback, errorCallback);
     }
+
     function successCallback(data) {
         adminCtrl.videosList = data.data;
     }
+
     function errorCallback(error) {
         $log(error);
         adminCtrl.videosList = [];

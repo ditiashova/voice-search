@@ -16,6 +16,7 @@ app.controller('SearchController', ['VideosModel', '$log', function (VideosModel
         searchCtrl.validResultsReceived = false;
         searchCtrl.noValidResultsReceived = false;
     }
+
     function successCallback(data) {
         searchCtrl.searchResults = data.data;
         if (searchCtrl.searchResults.length === 0) {
@@ -26,6 +27,7 @@ app.controller('SearchController', ['VideosModel', '$log', function (VideosModel
             searchCtrl.noValidResultsReceived = false;
         }
     }
+
     function errorCallback(error) {
         $log(error);
         searchCtrl.validResultsReceived = false;
