@@ -104,8 +104,91 @@
         <div class="horizontal-box separated">
                 Введите текст ссылки
                 <input type="text"  class="input-field">
-                <button class="btn btn-primary no-margin">Начать индексацию</button>
+                <button class="btn btn-primary no-margin">Ок</button>
             </div>
+        <div class="horizontal-box separated">
+            <label for="speed-input"> Введите скорость сканирования:
+                <input type="number" id="speed-input">
+            </label>
         </div>
+        <br/>
+        <div class="horizontal-box separated">
+            <label for="page-limit"> Введите количество страниц, которые будут проиндексированы:
+                <input type="number" id="page-limit">
+            </label>
+        </div>
+
+        <hr/>
+        <table>
+            <tr>
+                <td>Выбрать</td>
+                <td>ID видео</td>
+                <td>Начальный URL</td>
+                <td>Проиндексировано</td>
+                <td>Лимит</td>
+                <td>Скорость</td>
+                <td>Состояние</td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" checked></td>
+                <td>16</td>
+                <td><a href="https://www.youtube.com/watch?v=JiTz2i4VHFw">https://www.youtube.com/watch?v=JiTz2i4VHFw</a></td>
+                <td>543</td>
+                <td>1000</td>
+                <td>20</td>
+                <td><button class="btn btn-danger">Stopped</button> </td>
+            </tr>
+            <tr>
+                <td><input type="checkbox"></td>
+                <td>17</td>
+                <td><a href="https://www.youtube.com/watch?v=JiTz2i4VHFw">https://www.youtube.com/watch?v=-nH4MRvO-10</a></td>
+                <td>235</td>
+                <td>500</td>
+                <td>20</td>
+                <td><button class="btn btn-info">Active</button> </td>
+            </tr>
+            <tr>
+                <td><input type="checkbox"></td>
+                <td>18</td>
+                <td><a href="https://www.youtube.com/watch?v=JiTz2i4VHFw">https://www.youtube.com/watch?v=4ZNi68xVDWU</a></td>
+                <td>899</td>
+                <td>1000</td>
+                <td>20</td>
+                <td><button class="btn btn-info">Active</button> </td>
+            </tr>
+            <tr>
+                <td><input type="checkbox"></td>
+                <td>19</td>
+                <td><a href="https://www.youtube.com/watch?v=JiTz2i4VHFw">https://www.youtube.com/watch?v=o3yFSOeB5c4</a></td>
+                <td>1000</td>
+                <td>1000</td>
+                <td>20</td>
+                <td><button class="btn btn-success">Finished</button> </td>
+            </tr>
+            <tr>
+                <td><input type="checkbox"></td>
+                <td>20</td>
+                <td><a href="https://www.youtube.com/watch?v=JiTz2i4VHFw">https://www.youtube.com/watch?v=Y4O_Wkv66b0</a></td>
+                <td>1000</td>
+                <td>1000</td>
+                <td>20</td>
+                <td><button class="btn btn-success">Finished</button> </td>
+            </tr>
+            <tr>
+                <td><input type="checkbox"></td>
+                <td>21</td>
+                <td><a href="https://www.youtube.com/watch?v=JiTz2i4VHFw">https://www.youtube.com/watch?v=9UukcdU258A</a></td>
+                <td>1000</td>
+                <td>1000</td>
+                <td>20</td>
+                <td><button class="btn btn-success">Finished</button> </td>
+            </tr>
+        </table>
+        <div class="horizontal-box separated btn-group">
+            <button class="btn btn-primary">Продолжить</button>
+            <button class="btn btn-danger">Остановить</button>
+        </div>
+        <hr/>
+    </div>
 </div>
 <hr/>
